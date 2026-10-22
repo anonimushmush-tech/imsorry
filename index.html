@@ -19,9 +19,6 @@ body{font-family:'Quicksand',sans-serif;background:var(--ink);color:#fff;margin:
 .wave2{top:-25px;opacity:.4;animation-delay:-2s;background:rgba(225,29,116,.5);}
 @keyframes waveMove{0%{transform:translateX(0)}50%{transform:translateX(-25%)}100%{transform:translateX(0)}}
 .poke-text{position:relative;z-index:2;text-align:center;transition:opacity .5s;}
-.poke-circle{width:120px;height:120px;border-radius:50%;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:pulseRing 2s ease-in-out infinite;}
-@keyframes pulseRing{0%,100%{box-shadow:0 0 0 0 rgba(240,180,41,.5);transform:scale(1);}50%{box-shadow:0 0 0 24px rgba(240,180,41,0);transform:scale(1.05);}}
-.poke-hint{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
 @keyframes poopBounce{0%,100%{transform:translateY(0) scale(1,1);}30%{transform:translateY(-18px) scale(.95,1.05);}50%{transform:translateY(0) scale(1.1,.9);}70%{transform:translateY(-6px) scale(1,1);}}
 .poop-char{animation:poopBounce 1.6s ease-in-out infinite;transform-origin:bottom center;cursor:pointer;}
 @keyframes poopSplat{0%{transform:scale(1,1);}40%{transform:scale(1.6,.5) translateY(10px);}100%{transform:scale(0,0) rotate(360deg);opacity:0;}}
@@ -58,7 +55,6 @@ body{font-family:'Quicksand',sans-serif;background:var(--ink);color:#fff;margin:
       <div class="poop-char" id="poopChar" style="width:130px;height:130px;margin:0 auto 16px;">
         <svg viewBox="0 0 100 100" width="130" height="130">
           <ellipse cx="50" cy="88" rx="30" ry="6" fill="rgba(0,0,0,.3)"/>
-          <path d="M50 20c-3 0-5 2-5 5 0 1 0 2 .5 3-3 1-5.5 3-5.5 6 0 1.5.5 2.8 1.2 3.8-4 1.5-6.7 4.5-6.7 8.2 0 2 .6 3.8 1.6 5.3-3.5 1.8-5.6 5-5.6 8.7 0 5.5 5.5 9 15 9h22c9.5 0 15-3.5 15-9 0-3.7-2.1-6.9-5.6-8.7 1-1.5 1.6-3.3 1.6-5.3 0-3.7-2.7-6.7-6.7-8.2.7-1 1.2-2.3 1.2-3.8 0-3-2.5-5-5.5-6 .5-1 .5-2 .5-3 0-3-2-5-5-5-1.5 0-2.8.5-3.8 1.3C52.8 20.5 51.5 20 50 20z" fill="#7c4a1e"/>
           <path d="M50 20c-3 0-5 2-5 5 0 1 0 2 .5 3-3 1-5.5 3-5.5 6 0 1.5.5 2.8 1.2 3.8-4 1.5-6.7 4.5-6.7 8.2 0 2 .6 3.8 1.6 5.3-3.5 1.8-5.6 5-5.6 8.7 0 5.5 5.5 9 15 9h22c9.5 0 15-3.5 15-9 0-3.7-2.1-6.9-5.6-8.7 1-1.5 1.6-3.3 1.6-5.3 0-3.7-2.7-6.7-6.7-8.2.7-1 1.2-2.3 1.2-3.8 0-3-2.5-5-5.5-6 .5-1 .5-2 .5-3 0-3-2-5-5-5-1.5 0-2.8.5-3.8 1.3C52.8 20.5 51.5 20 50 20z" fill="url(#poopGrad)"/>
           <defs><linearGradient id="poopGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a0652e"/><stop offset="1" stop-color="#6b3d16"/></linearGradient></defs>
           <ellipse cx="40" cy="58" rx="4" ry="5" fill="#fff"/>
@@ -73,8 +69,8 @@ body{font-family:'Quicksand',sans-serif;background:var(--ink);color:#fff;margin:
         </svg>
       </div>
       <div class="poke-label" style="font-family:'Caveat',cursive;font-size:32px;color:var(--gold);margin-bottom:6px;">Poke me!</div>
-      <div class="poke-hint">(then the apology begins)</div>
-      <div style="font-size:12px;color:#475569;margin-top:10px;">yes there's a poop. no i won't apologize for it.</div>
+      <div style="font-size:12px;color:#475569;margin-top:10px;letter-spacing:.2em;text-transform:uppercase;">(then the apology begins)</div>
+      <div style="font-size:12px;color:#475569;margin-top:6px;">yes there's a poop. no i won't apologize for it.</div>
     </div>
   </div>
 
@@ -137,38 +133,119 @@ body{font-family:'Quicksand',sans-serif;background:var(--ink);color:#fff;margin:
 <script>
 (function(){
   var started=false, intro=document.getElementById('intro'), introFill=document.getElementById('introFill'), pokeText=document.getElementById('pokeText');
-  function playChime(){try{var ctx=new (window.AudioContext||window.webkitAudioContext)();[523.25,659.25,783.99,1046.5].forEach(function(f,i){var o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,ctx.currentTime+i*.12);g.gain.linearRampToValueAtTime(.15,ctx.currentTime+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.12+.8);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.9);});}catch(e){}}
-  function start(){if(started)return;started=true;var pc=document.getElementById('poopChar');if(pc){pc.classList.add('poop-splat');}poopExplosion();playFart();setTimeout(function(){startMelody();},500);pokeText.style.opacity='0';setTimeout(function(){introFill.style.height='100%';},200);setTimeout(function(){intro.style.transition='opacity .6s';intro.style.opacity='0';setTimeout(function(){intro.style.display='none';},600);animateLetters();window.scrollTo({top:intro.offsetHeight-80,behavior:'smooth'});},900);}
-  var audioCtx=null;
-  function getAudioCtx(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();}return audioCtx;}
-  function playFart(){try{var ctx=getAudioCtx();var o=ctx.createOscillator(),g=ctx.createGain();o.type='sawtooth';o.frequency.setValueAtTime(220,ctx.currentTime);o.frequency.exponentialRampToValueAtTime(60,ctx.currentTime+.35);g.gain.setValueAtTime(.25,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.4);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.45);}catch(e){}}
-  var melody=[[523.25,.5],[493.88,.5],[440,.5],[392,.5],[330,.5],[293.66,.5],[330,.5],[392,.5],[440,.5],[493.88,.5],[523.25,.5],[587.33,.5],[659.25,.5],[587.33,.5],[523.25,.5],[493.88,.5],[440,.75],[0,.25],[523.25,.5],[587.33,.5],[659.25,.5],[698.46,.5],[783.99,.5],[698.46,.5],[659.25,.5],[587.33,.5],[523.25,.75],[0,.5]];
-  var melodyPlaying=false;
-  function startMelody(){if(melodyPlaying)return;melodyPlaying=true;try{var ifr=document.createElement('iframe');ifr.style.cssText='position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none;';ifr.src='https://www.youtube.com/embed/SZ-TS7HliqY?autoplay=1&loop=1&playlist=SZ-TS7HliqY&rel=0';document.body.appendChild(ifr);}catch(e){}var ctx=getAudioCtx();var beat=0.42;function playNote(freq,dur,start){if(freq===0)return;var o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(0,start);g.gain.linearRampToValueAtTime(0.08,start+0.03);g.gain.setValueAtTime(0.08,start+dur*0.7);g.gain.exponentialRampToValueAtTime(0.001,start+dur);o.connect(g);g.connect(ctx.destination);o.start(start);o.stop(start+dur+0.05);}
-  function loop(){var time=ctx.currentTime+0.05;melody.forEach(function(n){playNote(n[0],n[1]*beat,time);time+=n[1]*beat;});var total=melody.reduce(function(s,n){return s+n[1];},0)*beat;setTimeout(loop,total*1000-100);}
-  loop();}
-  function poopExplosion(){var cx=window.innerWidth/2,cy=window.innerHeight/2;for(var i=0;i<14;i++){var d=document.createElement('div');var sz=20+Math.random()*30;var angle=(Math.PI*2*i)/14+Math.random()*.5;var dist=120+Math.random()*200;var dx=Math.cos(angle)*dist,dy=Math.sin(angle)*dist-60;d.style.cssText='position:fixed;left:'+cx+'px;top:'+cy+'px;width:'+sz+'px;height:'+sz+'px;z-index:9999;transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s;transform:translate(-50%,-50%) scale(0);opacity:1;pointer-events:none;';d.innerHTML='<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 100 100"><path d="M50 20c-3 0-5 2-5 5 0 1 0 2 .5 3-3 1-5.5 3-5.5 6 0 1.5.5 2.8 1.2 3.8-4 1.5-6.7 4.5-6.7 8.2 0 2 .6 3.8 1.6 5.3-3.5 1.8-5.6 5-5.6 8.7 0 5.5 5.5 9 15 9h22c9.5 0 15-3.5 15-9 0-3.7-2.1-6.9-5.6-8.7 1-1.5 1.6-3.3 1.6-5.3 0-3.7-2.7-6.7-6.7-8.2.7-1 1.2-2.3 1.2-3.8 0-3-2.5-5-5.5-6 .5-1 .5-2 .5-3 0-3-2-5-5-5-1.5 0-2.8.5-3.8 1.3C52.8 20.5 51.5 20 50 20z" fill="#7c4a1e"/><ellipse cx="40" cy="58" rx="4" ry="5" fill="#fff"/><ellipse cx="60" cy="58" rx="4" ry="5" fill="#fff"/><circle cx="40" cy="59" r="2" fill="#1a1a1a"/><circle cx="60" cy="59" r="2" fill="#1a1a1a"/><path d="M42 70 Q50 76 58 70" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';document.body.appendChild(d);(function(el,dx,dy,rot){setTimeout(function(){el.style.transform='translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) scale(1) rotate('+rot+'deg)';el.style.opacity='0';},20);setTimeout(function(){el.remove();},900);})(d,dx,dy,(Math.random()*720-360));}}
+
+  // FART SOUND ONLY (no chime!)
+  function playFart(){try{var ctx=new (window.AudioContext||window.webkitAudioContext)();var o=ctx.createOscillator(),g=ctx.createGain();o.type='sawtooth';o.frequency.setValueAtTime(220,ctx.currentTime);o.frequency.exponentialRampToValueAtTime(60,ctx.currentTime+.35);g.gain.setValueAtTime(.25,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.4);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.45);}catch(e){}}
+
+  // ONLY Elvis — YouTube embed, NO other music!
+  function startElvis(){
+    var ifr=document.createElement('iframe');
+    ifr.style.cssText='position:fixed;width:1px;height:1px;border:0;opacity:0;pointer-events:none;left:-9999px;top:-9999px;';
+    ifr.src='https://www.youtube.com/embed/SZ-TS7HliqY?autoplay=1&loop=1&playlist=SZ-TS7HliqY&rel=0&mute=0';
+    ifr.allow='autoplay; encrypted-media';
+    document.body.appendChild(ifr);
+  }
+
+  // POOP EXPLOSION
+  function poopExplosion(){
+    var cx=window.innerWidth/2, cy=window.innerHeight/2;
+    for(var i=0;i<14;i++){
+      var d=document.createElement('div');
+      var sz=20+Math.random()*30;
+      var angle=(Math.PI*2*i)/14+Math.random()*.5;
+      var dist=120+Math.random()*200;
+      var dx=Math.cos(angle)*dist, dy=Math.sin(angle)*dist-60;
+      d.style.cssText='position:fixed;left:'+cx+'px;top:'+cy+'px;width:'+sz+'px;height:'+sz+'px;z-index:9999;transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s;transform:translate(-50%,-50%) scale(0);opacity:1;pointer-events:none;';
+      d.innerHTML='<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 100 100"><path d="M50 20c-3 0-5 2-5 5 0 1 0 2 .5 3-3 1-5.5 3-5.5 6 0 1.5.5 2.8 1.2 3.8-4 1.5-6.7 4.5-6.7 8.2 0 2 .6 3.8 1.6 5.3-3.5 1.8-5.6 5-5.6 8.7 0 5.5 5.5 9 15 9h22c9.5 0 15-3.5 15-9 0-3.7-2.1-6.9-5.6-8.7 1-1.5 1.6-3.3 1.6-5.3 0-3.7-2.7-6.7-6.7-8.2.7-1 1.2-2.3 1.2-3.8 0-3-2.5-5-5.5-6 .5-1 .5-2 .5-3 0-3-2-5-5-5-1.5 0-2.8.5-3.8 1.3C52.8 20.5 51.5 20 50 20z" fill="#7c4a1e"/><ellipse cx="40" cy="58" rx="4" ry="5" fill="#fff"/><ellipse cx="60" cy="58" rx="4" ry="5" fill="#fff"/><circle cx="40" cy="59" r="2" fill="#1a1a1a"/><circle cx="60" cy="59" r="2" fill="#1a1a1a"/><path d="M42 70 Q50 76 58 70" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';
+      document.body.appendChild(d);
+      (function(el,dx,dy,rot){
+        setTimeout(function(){
+          el.style.transform='translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) scale(1) rotate('+rot+'deg)';
+          el.style.opacity='0';
+        },20);
+        setTimeout(function(){el.remove();},900);
+      })(d,dx,dy,(Math.random()*720-360));
+    }
+  }
+
+  function start(){
+    if(started)return; started=true;
+    var pc=document.getElementById('poopChar');
+    if(pc){pc.classList.add('poop-splat');}
+    poopExplosion();
+    playFart();
+    startElvis(); // ONLY Elvis plays!
+    pokeText.style.opacity='0';
+    setTimeout(function(){introFill.style.height='100%';},200);
+    setTimeout(function(){
+      intro.style.transition='opacity .6s';
+      intro.style.opacity='0';
+      setTimeout(function(){intro.style.display='none';},600);
+      animateLetters();
+      window.scrollTo({top:intro.offsetHeight-80,behavior:'smooth'});
+    },900);
+  }
   intro.addEventListener('click',start);
   intro.addEventListener('touchstart',function(e){e.preventDefault();start();},{passive:false});
-  function animateLetters(){if(typeof gsap==='undefined'){document.querySelectorAll('.sorry-letter').forEach(function(el){el.style.opacity='1';el.style.transform='none';});return;}gsap.to('.sorry-letter',{opacity:1,y:0,rotation:0,duration:.6,stagger:.08,ease:'back.out(1.7)',delay:.3});}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}});},{threshold:.15});
+
+  function animateLetters(){
+    if(typeof gsap==='undefined'){
+      document.querySelectorAll('.sorry-letter').forEach(function(el){el.style.opacity='1';el.style.transform='none';});
+      return;
+    }
+    gsap.to('.sorry-letter',{opacity:1,y:0,rotation:0,duration:.6,stagger:.08,ease:'back.out(1.7)',delay:.3});
+  }
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}});
+  },{threshold:.15});
   document.querySelectorAll('.blur-reveal').forEach(function(el){io.observe(el);});
+
   var t0=Date.now(),timerEl=document.getElementById('timer');
   function pad(n){return n<10?'0'+n:''+n;}
   setInterval(function(){var d=Math.floor((Date.now()-t0)/1000);timerEl.textContent=pad(Math.floor(d/3600))+':'+pad(Math.floor((d%3600)/60))+':'+pad(d%60);},1000);
+
   var heartsLayer=document.getElementById('heartsLayer'),colors=['#f472b6','#fb7185','#f0b429','#e11d74','#a78bfa'];
-  function spawnHeart(){var d=document.createElement('div');d.className='heart-float';var sz=12+Math.random()*20;d.style.left=(Math.random()*100)+'%';d.style.width=sz+'px';d.style.height=sz+'px';d.style.animationDuration=(6+Math.random()*7)+'s';var c=colors[Math.floor(Math.random()*colors.length)];d.innerHTML='<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 24 24" fill="'+c+'" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';heartsLayer.appendChild(d);setTimeout(function(){d.remove();},13000);}
-  for(var i=0;i<10;i++){setTimeout(spawnHeart,i*350);}setInterval(spawnHeart,800);
+  function spawnHeart(){
+    var d=document.createElement('div');d.className='heart-float';
+    var sz=12+Math.random()*20;
+    d.style.left=(Math.random()*100)+'%';
+    d.style.width=sz+'px';d.style.height=sz+'px';
+    d.style.animationDuration=(6+Math.random()*7)+'s';
+    var c=colors[Math.floor(Math.random()*colors.length)];
+    d.innerHTML='<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 24 24" fill="'+c+'" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+    heartsLayer.appendChild(d);
+    setTimeout(function(){d.remove();},13000);
+  }
+  for(var i=0;i<10;i++){setTimeout(spawnHeart,i*350);}
+  setInterval(spawnHeart,800);
+
   var noBtn=document.getElementById('noBtn'),yesBtn=document.getElementById('yesBtn'),forgiveSub=document.getElementById('forgiveSub');
   var taunts=["Nice try! Can't catch me!","Nope, not today!","Too slow! The Yes button is RIGHT there...","I'm shy, don't touch me!","You'll NEVER click me!","3.5 days I was gone, and NOW you want to click No? Just say Yes!","Catch me if you can!","Okay now you're just being stubborn...","I've been running for minutes. Give up!","Fine. You win. But I'm still not letting you click!"];
   var ti=0,ys=1;
-  function dodge(){var p=noBtn.parentElement,r=p.getBoundingClientRect(),b=noBtn.getBoundingClientRect();var mx=(r.width-b.width)/2-10;var nx=(Math.random()*2-1)*Math.max(mx,40),ny=(Math.random()*2-1)*50,rot=(Math.random()*24-12);noBtn.style.transform='translate('+nx+'px,'+ny+'px) rotate('+rot+'deg)';forgiveSub.textContent=taunts[ti%taunts.length];forgiveSub.style.color='#f472b6';ti++;ys=Math.min(1+ti*.05,1.6);yesBtn.style.transform='scale('+ys+')';}
+  function dodge(){
+    var p=noBtn.parentElement,r=p.getBoundingClientRect(),b=noBtn.getBoundingClientRect();
+    var mx=(r.width-b.width)/2-10;
+    var nx=(Math.random()*2-1)*Math.max(mx,40),ny=(Math.random()*2-1)*50,rot=(Math.random()*24-12);
+    noBtn.style.transform='translate('+nx+'px,'+ny+'px) rotate('+rot+'deg)';
+    forgiveSub.textContent=taunts[ti%taunts.length];
+    forgiveSub.style.color='#f472b6';
+    ti++;
+    ys=Math.min(1+ti*.05,1.6);
+    yesBtn.style.transform='scale('+ys+')';
+  }
   noBtn.addEventListener('mouseenter',dodge);
   noBtn.addEventListener('touchstart',function(e){e.preventDefault();dodge();},{passive:false});
   noBtn.addEventListener('click',function(e){e.preventDefault();dodge();});
+
   var yc=0,yesMsg=document.getElementById('yesMsg');
   var ym=["Thank you! I promise no more disappearing!","Again?! You're too forgiving — I don't deserve you!","Third time? Okay now I KNOW you love me!","Stop clicking, we're good! I love you!","My heart can't take this much sweetness!","ALRIGHT — I get it, you forgave me! Now let me make it up to you!"];
-  yesBtn.addEventListener('click',function(){yc++;yesMsg.innerHTML='<span style="color:var(--gold);font-weight:700;">'+(yc<=ym.length?ym[yc-1]:"Okay seriously, "+yc+" times? We're GOOD. I love you!")+'</span>';yesBtn.classList.add('wiggle');setTimeout(function(){yesBtn.classList.remove('wiggle');},400);playChime();});
+  yesBtn.addEventListener('click',function(){
+    yc++;
+    yesMsg.innerHTML='<span style="color:var(--gold);font-weight:700;">'+(yc<=ym.length?ym[yc-1]:"Okay seriously, "+yc+" times? We're GOOD. I love you!")+'</span>';
+    yesBtn.classList.add('wiggle');
+    setTimeout(function(){yesBtn.classList.remove('wiggle');},400);
+  });
 })();
 </script>
 </body>
