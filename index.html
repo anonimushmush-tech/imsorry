@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry My Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--rose:#e11d74;--rose-soft:rgba(225,29,116,.15);--gold:#f0b429;--gold-soft:rgba(240,180,41,.18);--ink:#0a0a0f;--muted:#94a3b8;}
+*{box-sizing:border-box;}
+body{font-family:'Quicksand',sans-serif;background:var(--ink);color:#fff;margin:0;overflow-x:hidden;}
+.font-display{font-family:'Archivo Black',sans-serif;}
+.font-hand{font-family:'Caveat',cursive;}
+#intro{position:relative;width:100%;height:100vh;background:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;}
+#introFill{position:absolute;left:0;bottom:0;width:100%;height:0;background:linear-gradient(180deg,var(--gold),var(--rose));transition:height 1.1s cubic-bezier(.65,0,.35,1);z-index:1;}
+.wave{position:absolute;top:-40px;left:0;width:200%;height:80px;background:rgba(240,180,41,.55);border-radius:50%;animation:waveMove 4s infinite linear;}
+.wave2{top:-25px;opacity:.4;animation-delay:-2s;background:rgba(225,29,116,.5);}
+@keyframes waveMove{0%{transform:translateX(0)}50%{transform:translateX(-25%)}100%{transform:translateX(0)}}
+.poke-text{position:relative;z-index:2;text-align:center;transition:opacity .5s;}
+.poke-circle{width:120px;height:120px;border-radius:50%;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:pulseRing 2s ease-in-out infinite;}
+@keyframes pulseRing{0%,100%{box-shadow:0 0 0 0 rgba(240,180,41,.5);transform:scale(1);}50%{box-shadow:0 0 0 24px rgba(240,180,41,0);transform:scale(1.05);}}
+.poke-hint{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
+.sorry-letter{display:inline-block;font-family:'Archivo Black',sans-serif;font-size:clamp(32px,8.5vw,68px);line-height:1;opacity:0;transform:translateY(60px) rotate(-8deg);}
+.c1{color:#60a5fa;}.c2{color:#f472b6;}.c3{color:#fbbf24;}.c4{color:#34d399;}.c5{color:#a78bfa;}.c6{color:#fb7185;}.c7{color:#22d3ee;}.c8{color:#f59e0b;}.c9{color:#e879f9;}
+.blur-reveal{filter:blur(14px);opacity:.3;transform:translateY(24px);transition:filter 1.2s ease,opacity 1.2s ease,transform 1.2s ease;will-change:filter,opacity,transform;}
+.blur-reveal.revealed{filter:blur(0);opacity:1;transform:translateY(0);}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0) scale(.5);opacity:0;}15%{opacity:.8;}100%{transform:translateY(-480px) rotate(35deg) scale(1.1);opacity:0;}}
+.heart-float{position:absolute;bottom:-30px;animation:floatUp linear infinite;pointer-events:none;z-index:5;}
+.btn-no{transition:transform .18s ease-out;position:relative;will-change:transform;}
+.yes-btn{transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .3s;}
+.yes-btn:hover{transform:scale(1.08);}
+@keyframes wiggle{0%,100%{transform:rotate(-3deg) scale(1.05)}50%{transform:rotate(3deg) scale(1.1)}}
+.wiggle{animation:wiggle .4s ease-in-out;}
+.letter-card{background:linear-gradient(160deg,#15151c,#0f0f16);border:1px solid rgba(240,180,41,.2);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(240,180,41,.5),transparent);margin:24px 0;}
+.idiot-stat{background:rgba(225,29,116,.08);border:1px solid rgba(225,29,116,.3);border-radius:16px;padding:14px;text-align:center;transition:transform .3s;}
+.idiot-stat:hover{transform:translateY(-3px);}
+.idiot-num{font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--rose);}
+.idiot-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+::-webkit-scrollbar{width:8px;}::-webkit-scrollbar-track{background:var(--ink);}::-webkit-scrollbar-thumb{background:var(--rose);border-radius:4px;}
+</style>
+</head>
+<body>
+<div style="position:relative;min-height:100vh;background:var(--ink);overflow:hidden;">
+  <div id="heartsLayer" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:5;"></div>
+
+  <div id="intro">
+    <div id="introFill"><div class="wave"></div><div class="wave wave2"></div></div>
+    <div class="poke-text" id="pokeText">
+      <div class="poke-circle">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#f0b429" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 14c.62 0 1.18-.19 1.65-.51L21 17v-4l-4.35-2.49A3 3 0 0 0 15 10H9a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h6z"/>
+          <path d="M12 3v2"/><path d="m6.34 5.34 1.41 1.41"/><path d="M3 12h2"/><path d="m6.34 18.66 1.41-1.41"/>
+        </svg>
+      </div>
+      <div class="poke-hint">Tap anywhere to begin</div>
+      <div style="font-size:12px;color:#475569;margin-top:10px;">(I'm about to embarrass myself for you)</div>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:2;max-width:680px;margin:0 auto;padding:60px 20px 100px;">
+    <div id="sorryTitle" style="text-align:center;margin-bottom:36px;letter-spacing:2px;">
+      <span class="sorry-letter c1">I</span>
+      <span class="sorry-letter" style="width:clamp(8px,2vw,16px);display:inline-block;"></span>
+      <span class="sorry-letter c2">A</span><span class="sorry-letter c3">M</span>
+      <span class="sorry-letter" style="width:clamp(8px,2vw,16px);display:inline-block;"></span>
+      <span class="sorry-letter c4">S</span><span class="sorry-letter c5">O</span><span class="sorry-letter c6">R</span><span class="sorry-letter c7">R</span><span class="sorry-letter c8">Y</span><span class="sorry-letter c9">!</span>
+    </div>
+
+    <div class="blur-reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px;">
+      <div class="idiot-stat"><div class="idiot-num">3.5</div><div class="idiot-label">Days missing</div></div>
+      <div class="idiot-stat"><div class="idiot-num">84</div><div class="idiot-label">Hours of silence</div></div>
+      <div class="idiot-stat"><div class="idiot-num">1</div><div class="idiot-label">Idiot boyfriend</div></div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Time since I realized how stupid I was</div>
+      <div id="timer" class="font-display" style="font-size:26px;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:2px;">00:00:00</div>
+    </div>
+
+    <div class="letter-card" style="padding:36px 28px;">
+      <h2 class="font-hand" style="font-size:36px;color:var(--gold);margin:0 0 4px;text-align:center;">My Dearest Love,</h2>
+      <div class="divider"></div>
+      <p class="blur-reveal" style="font-size:16px;line-height:1.9;color:#e2e8f0;margin:0 0 22px;">I know. I disappeared. For <strong style="color:var(--rose);">three and a half days</strong>. No text, no call, no "hey how's your day" — nothing. And before you say anything: yes, I know that was unbelievably dumb. Yes, I know you deserved better. And yes, I'm writing this entire website because a normal text apology just didn't feel like enough.</p>
+      <p class="blur-reveal" style="font-size:16px;line-height:1.9;color:#e2e8f0;margin:0 0 22px;">I can only imagine what went through your head. Did I do something wrong? Is he okay? Does he even care anymore? Every single one of those thoughts is on me. You didn't deserve a single second of that worry. You show up for me every day, and I just... went ghost. There's no excuse that makes that okay.</p>
+      <div class="blur-reveal" style="background:rgba(240,180,41,.08);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:16px 20px;margin:0 0 22px;">
+        <p class="font-hand" style="font-size:24px;color:var(--gold);margin:0;line-height:1.5;">"84 hours. 5,040 minutes. 302,400 seconds of me being an idiot. I'm sorry for every single one."</p>
+      </div>
+      <p class="blur-reveal" style="font-size:16px;line-height:1.9;color:#e2e8f0;margin:0 0 22px;">Here's my promise to you: no more disappearing. If I'm busy, I'll say so. If I need space, I'll tell you. You will never again have to wonder where I went or if I still care — because I do. More than anything. You're my favorite person to talk to, and wasting 3.5 days of that was the dumbest thing I've done all year.</p>
+      <p class="blur-reveal" style="font-size:16px;line-height:1.9;color:#e2e8f0;margin:0 0 10px;">So here I am, building you a whole website, because I want you to know: I see what I did, I hate that I did it, and I will spend however long it takes making it up to you. Whatever you need — space, an apology call, me showing up at your door with food — just say the word. I'm all yours.</p>
+      <div class="divider"></div>
+      <div style="text-align:right;">
+        <div class="font-hand" style="font-size:28px;color:var(--rose);margin:0;">Yours, even when I'm being an idiot</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">— the guy who will never ghost you again</div>
+      </div>
+    </div>
+
+    <div class="blur-reveal" style="margin-top:48px;text-align:center;background:linear-gradient(160deg,#1a1020,#15151c);border:2px solid var(--rose);border-radius:24px;padding:36px 24px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:var(--rose-soft);"></div>
+      <div style="position:relative;z-index:1;">
+        <h3 class="font-display" style="font-size:22px;margin:0 0 8px;color:#fff;">So... will you forgive me?</h3>
+        <p id="forgiveSub" style="color:var(--muted);font-size:13px;margin:0 0 28px;">One of these buttons is extremely shy. Good luck catching it.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center;min-height:56px;">
+          <button id="yesBtn" class="yes-btn" style="background:linear-gradient(135deg,var(--rose),#f472b6);color:#fff;border:none;border-radius:14px;padding:14px 32px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Quicksand',sans-serif;box-shadow:0 8px 24px rgba(225,29,116,.4);">Yes, I forgive you</button>
+          <button id="noBtn" class="btn-no" style="background:#1e1e28;color:var(--muted);border:2px solid #333;border-radius:14px;padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Quicksand',sans-serif;">No</button>
+        </div>
+        <div id="yesMsg" style="margin-top:20px;font-size:13px;min-height:20px;"></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);">
+      <p style="font-size:12px;color:#475569;margin:0;">Made with <span style="color:var(--rose);">love</span> + <span style="color:var(--gold);">3.5 days of regret</span> · PS: The No button is uncatchable. I'm sorry (not sorry).</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var started=false, intro=document.getElementById('intro'), introFill=document.getElementById('introFill'), pokeText=document.getElementById('pokeText');
+  function playChime(){try{var ctx=new (window.AudioContext||window.webkitAudioContext)();[523.25,659.25,783.99,1046.5].forEach(function(f,i){var o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,ctx.currentTime+i*.12);g.gain.linearRampToValueAtTime(.15,ctx.currentTime+i*.12+.02);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.12+.8);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.9);});}catch(e){}}
+  function start(){if(started)return;started=true;playChime();pokeText.style.opacity='0';introFill.style.height='100%';setTimeout(function(){intro.style.transition='opacity .6s';intro.style.opacity='0';setTimeout(function(){intro.style.display='none';},600);animateLetters();window.scrollTo({top:intro.offsetHeight-80,behavior:'smooth'});},900);}
+  intro.addEventListener('click',start);
+  intro.addEventListener('touchstart',function(e){e.preventDefault();start();},{passive:false});
+  function animateLetters(){if(typeof gsap==='undefined'){document.querySelectorAll('.sorry-letter').forEach(function(el){el.style.opacity='1';el.style.transform='none';});return;}gsap.to('.sorry-letter',{opacity:1,y:0,rotation:0,duration:.6,stagger:.08,ease:'back.out(1.7)',delay:.3});}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.blur-reveal').forEach(function(el){io.observe(el);});
+  var t0=Date.now(),timerEl=document.getElementById('timer');
+  function pad(n){return n<10?'0'+n:''+n;}
+  setInterval(function(){var d=Math.floor((Date.now()-t0)/1000);timerEl.textContent=pad(Math.floor(d/3600))+':'+pad(Math.floor((d%3600)/60))+':'+pad(d%60);},1000);
+  var heartsLayer=document.getElementById('heartsLayer'),colors=['#f472b6','#fb7185','#f0b429','#e11d74','#a78bfa'];
+  function spawnHeart(){var d=document.createElement('div');d.className='heart-float';var sz=12+Math.random()*20;d.style.left=(Math.random()*100)+'%';d.style.width=sz+'px';d.style.height=sz+'px';d.style.animationDuration=(6+Math.random()*7)+'s';var c=colors[Math.floor(Math.random()*colors.length)];d.innerHTML='<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 24 24" fill="'+c+'" opacity="0.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';heartsLayer.appendChild(d);setTimeout(function(){d.remove();},13000);}
+  for(var i=0;i<10;i++){setTimeout(spawnHeart,i*350);}setInterval(spawnHeart,800);
+  var noBtn=document.getElementById('noBtn'),yesBtn=document.getElementById('yesBtn'),forgiveSub=document.getElementById('forgiveSub');
+  var taunts=["Nice try! Can't catch me!","Nope, not today!","Too slow! The Yes button is RIGHT there...","I'm shy, don't touch me!","You'll NEVER click me!","3.5 days I was gone, and NOW you want to click No? Just say Yes!","Catch me if you can!","Okay now you're just being stubborn...","I've been running for minutes. Give up!","Fine. You win. But I'm still not letting you click!"];
+  var ti=0,ys=1;
+  function dodge(){var p=noBtn.parentElement,r=p.getBoundingClientRect(),b=noBtn.getBoundingClientRect();var mx=(r.width-b.width)/2-10;var nx=(Math.random()*2-1)*Math.max(mx,40),ny=(Math.random()*2-1)*50,rot=(Math.random()*24-12);noBtn.style.transform='translate('+nx+'px,'+ny+'px) rotate('+rot+'deg)';forgiveSub.textContent=taunts[ti%taunts.length];forgiveSub.style.color='#f472b6';ti++;ys=Math.min(1+ti*.05,1.6);yesBtn.style.transform='scale('+ys+')';}
+  noBtn.addEventListener('mouseenter',dodge);
+  noBtn.addEventListener('touchstart',function(e){e.preventDefault();dodge();},{passive:false});
+  noBtn.addEventListener('click',function(e){e.preventDefault();dodge();});
+  var yc=0,yesMsg=document.getElementById('yesMsg');
+  var ym=["Thank you! I promise no more disappearing!","Again?! You're too forgiving — I don't deserve you!","Third time? Okay now I KNOW you love me!","Stop clicking, we're good! I love you!","My heart can't take this much sweetness!","ALRIGHT — I get it, you forgave me! Now let me make it up to you!"];
+  yesBtn.addEventListener('click',function(){yc++;yesMsg.innerHTML='<span style="color:var(--gold);font-weight:700;">'+(yc<=ym.length?ym[yc-1]:"Okay seriously, "+yc+" times? We're GOOD. I love you!")+'</span>';yesBtn.classList.add('wiggle');setTimeout(function(){yesBtn.classList.remove('wiggle');},400);playChime();});
+})();
+</script>
+</body>
+</html>
