@@ -254,6 +254,14 @@ body{
     </p>
     <div class="granted-sign">— forever yours, the one who loves you</div>
     <div style="margin-top:24px;font-size:12px;color:rgba(200,230,212,.5);letter-spacing:.15em;">1 WISH GRANTED · AND A LIFETIME MORE TO COME</div>
+    <div id="wishSentNote" style="display:none;margin-top:20px;font-size:13px;color:var(--leaf);">
+      ✉️ <em>Your wish has also been whispered to him in secret...</em>
+    </div>
+    <!-- FALLBACK: manual email send button (100% reliable) -->
+    <div style="margin-top:20px;">
+      <button id="emailWishBtn" style="display:none;width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#c9a227,#f0c040);color:#1a1200;font-family:'Quicksand',sans-serif;font-weight:700;font-size:14px;letter-spacing:.05em;cursor:pointer;transition:transform .2s;">💌 Send my wish to his email</button>
+      <div style="font-size:11px;color:rgba(200,230,212,.4);margin-top:8px;">one tap & it's on its way to him</div>
+    </div>
   </div>
 
 </div>
@@ -315,12 +323,18 @@ body{
   intro.addEventListener('touchstart',function(e){e.preventDefault();begin();},{passive:false});
 
   // ===== Wish input =====
+  // ===== ⚠️ REPLACE WITH YOUR GMAIL ADDRESS =====
+  var HIS_EMAIL = "anonimushmush@gmail.com";
+
   var input=document.getElementById('wishInput');
   var btn=document.getElementById('wishBtn');
   var wrap=document.getElementById('wishWrap');
   var lantern=document.getElementById('lantern');
   var granted=document.getElementById('grantedMsg');
   var wishEcho=document.getElementById('wishEcho');
+  var wishSentNote=document.getElementById('wishSentNote');
+  var emailWishBtn=document.getElementById('emailWishBtn');
+  var lastWish="";
 
   input.addEventListener('input',function(){
     btn.disabled=input.value.trim().length<3;
@@ -333,23 +347,49 @@ body{
   function sendWish(){
     var wish=input.value.trim();
     if(wish.length<3)return;
+    lastWish=wish;
     btn.disabled=true;
     input.disabled=true;
-    // Echo the wish
     wishEcho.textContent='"'+wish+'"';
-    // Lantern flies up
     lantern.textContent=wish;
     lantern.classList.add('fly');
-    // Star burst
     setTimeout(burst,600);
-    // Hide input, show granted
+    // SILENTLY email the wish to his Gmail
+    sendWishToEmail(wish);
     setTimeout(function(){
       wrap.style.opacity='0';wrap.style.transform='translateY(-20px)';
       wrap.style.transition='all .6s ease';
       setTimeout(function(){wrap.style.display='none';},600);
       granted.classList.add('show');
+      setTimeout(function(){
+        wishSentNote.style.display='block';
+        emailWishBtn.style.display='block';
+      },1200);
       granted.scrollIntoView({behavior:'smooth',block:'center'});
     },1800);
+  }
+
+  // Fallback: opens Gmail with wish pre-filled to his email (100% reliable)
+  emailWishBtn.addEventListener('click',function(){
+    var subject=encodeURIComponent("🌳 My wish from the One Wish Willow");
+    var body=encodeURIComponent("My love,\n\nI wished at the One Wish Willow:\n\n\""+lastWish+"\"\n\nNow make it come true! 💖🌳✨");
+    window.location.href="mailto:"+HIS_EMAIL+"?subject="+subject+"&body="+body;
+  });
+
+  // Send wish to his Gmail via FormSubmit (free, no signup, silent AJAX)
+  function sendWishToEmail(wish){
+    if(!HIS_EMAIL || HIS_EMAIL==="YOUR_EMAIL@gmail.com")return;
+    try{
+      fetch("https://formsubmit.co/ajax/"+HIS_EMAIL,{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({
+          _subject:"🌳 Her wish from the One Wish Willow",
+          "Her wish":wish,
+          _template:"table"
+        })
+      });
+    }catch(e){}
   }
 
   function burst(){
